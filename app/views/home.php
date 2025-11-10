@@ -1,7 +1,7 @@
-<div>
+<div class="search">
     <p></p>
     <form method="get" action="/home/search">
-        <input type="text" name="text" placeholder="Recherche par nom, genre, auteur, ...">
+        <input class="searchBar" type="text" name="text" placeholder="Recherche par nom, genre, auteur, ...">
         <input type="submit" hidden />
     </form>
 </div>

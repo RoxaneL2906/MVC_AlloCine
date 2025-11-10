@@ -17,9 +17,9 @@ class DiffusionModel
     {
         $this->bdd = new PDO("mysql:host=bdd;dbname=allocine", "root", "root");
 
-        $this->getDiffusions = $this->bdd->prepare("SELECT d.id as diffusion_id, d.*, f.id as film_id, f.* FROM `diffusion` d JOIN `film` f ON f.id = d.film_id ORDER BY date_diffusion ASC LIMIT :limit");
+        $this->getDiffusions = $this->bdd->prepare("SELECT d.id as diffusion_id, d.*, f.id as film_id, f.* FROM `diffusion` d JOIN `film` f ON f.id = d.film_id WHERE date_diffusion >= NOW() ORDER BY date_diffusion ASC LIMIT :limit");
         $this->getNextDiffusions = $this->bdd->prepare("SELECT d.id as diffusion_id, d.*, f.id as film_id, f.* FROM `diffusion` d JOIN `film` f ON f.id = d.film_id WHERE date_diffusion >= now() ORDER BY date_diffusion ASC LIMIT 3");
-        $this->getDiffusionsByFilmId = $this->bdd->prepare("SELECT d.id as diffusion_id, d.*, f.id as film_id, f.* FROM `diffusion` d JOIN `film` f ON f.id = d.film_id WHERE f.id = :id ORDER BY date_diffusion ASC");
+        $this->getDiffusionsByFilmId = $this->bdd->prepare("SELECT d.id as diffusion_id, d.*, f.id as film_id, f.* FROM `diffusion` d JOIN `film` f ON f.id = d.film_id WHERE f.id = :id AND date_diffusion >= NOW() ORDER BY date_diffusion ASC");
         $this->getDiffusion = $this->bdd->prepare("SELECT * FROM `diffusion` WHERE id = :id");
         $this->addDiffusion = $this->bdd->prepare("INSERT INTO diffusion (film_id, date_diffusion) VALUES (:film_id, :date_diffusion)");
         $this->delDiffusion = $this->bdd->prepare("DELETE FROM diffusion WHERE id = :id");

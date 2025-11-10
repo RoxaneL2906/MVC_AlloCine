@@ -1,10 +1,10 @@
 <div>
-    <h3>Liste des diffusions</h3>
+    <h2>Liste des diffusions</h2>
     <div class="list">
         <?php foreach ($diffusions as $diffusion): ?>
             <div class="diffusion">
-                <p><?= $diffusion->getFilm()->getNom(); ?></p>
                 <p><?= $diffusion->getDateDiffusion(); ?></p>
+                <p><?= $diffusion->getFilm()->getNom(); ?></p>
             </div>            
         <?php endforeach; ?>
     </div>
