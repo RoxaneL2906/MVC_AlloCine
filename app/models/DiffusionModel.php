@@ -12,6 +12,8 @@ class DiffusionModel
     private PDOStatement $getDiffusion;
     private PDOStatement $addDiffusion;
     private PDOStatement $delDiffusion;
+    //Bonus
+    private PDOStatement $getPastDiffusions;
 
     function __construct()
     {
@@ -23,6 +25,8 @@ class DiffusionModel
         $this->getDiffusion = $this->bdd->prepare("SELECT * FROM `diffusion` WHERE id = :id");
         $this->addDiffusion = $this->bdd->prepare("INSERT INTO diffusion (film_id, date_diffusion) VALUES (:film_id, :date_diffusion)");
         $this->delDiffusion = $this->bdd->prepare("DELETE FROM diffusion WHERE id = :id");
+        //Bonus
+        $this->getPastDiffusions = $this->bdd->prepare("SELECT d.id as diffusion_id, d.*, f.id as film_id, f.* FROM `diffusion` d JOIN `film` f ON f.id = d.film_id WHERE date_diffusion < CURDATE() ORDER BY date_diffusion DESC");
     }
 
     public function getAll(int $limit = 50): array
@@ -129,6 +133,33 @@ class DiffusionModel
     {
         $this->delDiffusion->bindValue("id", $id, PDO::PARAM_INT);
         $this->delDiffusion->execute();
+    }
+
+
+    // //Bonus
+    public function getPastDiffusionsByFilmId(int $film_id): array
+    {
+        $this->getPastDiffusions->execute();
+        $rawPastDiffusions = $this->getPastDiffusions->fetchAll();
+
+        $diffusionsEntity = [];
+        foreach ($rawPastDiffusions as $rawPastDiffusion) {
+            $filmEntity = new FilmEntity(
+                $rawPastDiffusion["nom"],
+                $rawPastDiffusion["date_sortie"],
+                $rawPastDiffusion["genre"],
+                $rawPastDiffusion["auteur"],
+                $rawPastDiffusion["film_id"],
+            );
+
+            $diffusionsEntity[] = new DiffusionEntity(
+                $filmEntity,
+                $rawPastDiffusion["date_diffusion"],
+                $rawPastDiffusion["id"]
+            );
+        }
+
+        return $diffusionsEntity;
     }
 }
 

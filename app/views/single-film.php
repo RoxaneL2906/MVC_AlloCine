@@ -12,4 +12,11 @@
             <p><?= $diffusion->getDateDiffusion(); ?></p>
         <?php endforeach; ?>
     </div>
+
+    <div>
+        <p>Diffusions passées : <br></p>
+        <?php foreach ($pastDiffusions as $diffusion): ?>
+            <p><?= $diffusion->getDateDiffusion(); ?></p>
+        <?php endforeach; ?>
+    </div>
 </section>

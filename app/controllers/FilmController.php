@@ -23,8 +23,10 @@ class FilmController
 
         $diffusionModel = new DiffusionModel();
         $diffusions = $diffusionModel->getDiffusionsByFilmId($id);
+        $pastDiffusions = $diffusionModel->getPastDiffusionsByFilmId($id);
 
-        return ['view' => 'single-film', 'params' => ['film' => $film, 'diffusions' => $diffusions], 'title' => 'Film'];
+
+        return ['view' => 'single-film', 'params' => ['film' => $film, 'diffusions' => $diffusions, 'pastDiffusions' => $pastDiffusions], 'title' => 'Film'];
     }
 
     public function addFilm(array $params = [])
@@ -41,4 +43,6 @@ class FilmController
         $filmsModel->del($id);
         header('Location: http://localhost:8080/dashboard');
     }
+
+ 
 }
