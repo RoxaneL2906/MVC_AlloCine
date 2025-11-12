@@ -26,7 +26,7 @@ class DiffusionModel
         $this->addDiffusion = $this->bdd->prepare("INSERT INTO diffusion (film_id, date_diffusion) VALUES (:film_id, :date_diffusion)");
         $this->delDiffusion = $this->bdd->prepare("DELETE FROM diffusion WHERE id = :id");
         //Bonus
-        $this->getPastDiffusions = $this->bdd->prepare("SELECT d.id as diffusion_id, d.*, f.id as film_id, f.* FROM `diffusion` d JOIN `film` f ON f.id = d.film_id WHERE date_diffusion < CURDATE() ORDER BY date_diffusion DESC");
+        $this->getPastDiffusions = $this->bdd->prepare("SELECT d.id as diffusion_id, d.*, f.id as film_id, f.* FROM `diffusion` d JOIN `film` f ON f.id = d.film_id WHERE f.id = :film_id AND date_diffusion < CURDATE() ORDER BY date_diffusion DESC");
     }
 
     public function getAll(int $limit = 50): array
@@ -139,6 +139,7 @@ class DiffusionModel
     // //Bonus
     public function getPastDiffusionsByFilmId(int $film_id): array
     {
+        $this->getPastDiffusions->bindValue("film_id", $film_id, PDO::PARAM_INT);
         $this->getPastDiffusions->execute();
         $rawPastDiffusions = $this->getPastDiffusions->fetchAll();
 

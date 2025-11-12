@@ -29,7 +29,12 @@ class HomeController
         
         $filmsModel = new FilmModel();
         $films = $filmsModel->search($text);
+        //$films = $filmsModel->getAll();
+        console($films);
+
+        $diffusionsModel = new DiffusionModel();
+        $diffusions = $diffusionsModel->getNextDiffusions();
         
-        return ['view' => 'home', 'params' => ['films' => $films], 'title' => 'Accueil'];
+        return ['view' => 'home', 'params' => ['films' => $films, 'diffusions' => $diffusions], 'title' => 'Accueil'];
     }
 }

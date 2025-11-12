@@ -19,7 +19,7 @@ class FilmModel
         $this->addFilm = $this->bdd->prepare("INSERT INTO film (nom, date_sortie, genre, auteur) VALUES (:nom, :date_sortie, :genre, :auteur)");
         $this->delFilm = $this->bdd->prepare("DELETE FROM film WHERE id = :id");
         $this->editFilm = $this->bdd->prepare("UPDATE film SET nom = :nom, date_sortie = :date_sortie, genre = :genre, auteur = :auteur WHERE id = :id");
-        $this->searchFilm = $this->bdd->prepare("SELECT * FROM `film` WHERE nom like CONCAT('%', :text, '%')");
+        $this->searchFilm = $this->bdd->prepare("SELECT * FROM `film` WHERE nom like CONCAT('%', :text, '%') OR genre = :text OR auteur = :text");
     }
 
     public function getAll(int $limit = 50): array
@@ -123,6 +123,7 @@ class FilmModel
         foreach ($rawFilms as $rawFilm) {
             $filmsEntity[] = new FilmEntity(
                 $rawFilm["nom"],
+                $rawFilm["date_sortie"],
                 $rawFilm["genre"],
                 $rawFilm["auteur"],
                 $rawFilm["id"]

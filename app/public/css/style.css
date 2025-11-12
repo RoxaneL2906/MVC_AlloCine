@@ -56,6 +56,13 @@ button {
   width: 8rem;
 }
 
+select {
+  background-color: #b598c6;
+  border-radius: 30px;
+  width: 8rem;
+  border: none;      
+}
+
 .dashboard {
   display: flex;
   flex-direction: row;

@@ -18,7 +18,7 @@ class App
 
         $result = $controller->view($methodName, $params);
 
-        //console(($result));
+        // console(($result));
 
         $view = $result['view'] ?? 'home';
         $params = $result['params'] ?? [];

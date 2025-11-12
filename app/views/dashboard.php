@@ -4,19 +4,33 @@
         <form class="add-media" method="post" action="/film/addFilm">
             <div>
                 <label for="nom">Nom :</label>
-                <input type="text" name="nom" id="nom">
+                <input type="text" name="nom" id="nom" required>
             </div>
             <div>
                 <label for="date_sortie">Date de sortie :</label>
-                <input type="date" name="date_sortie" id="date_sortie">
+                <input type="date" name="date_sortie" id="date_sortie" required>
             </div>
-            <div>
+            <div class="select-wrapper">
                 <label for="genre">Genre :</label>
-                <input type="text" name="genre" id="genre">
+                <select name="genre" id="genre" required>
+                    <option value=''></option>
+                    <option value='Action'>Action</option>
+                    <option value='Animation'>Animation</option>
+                    <option value='Aventure'>Aventure</option>
+                    <option value='Comédie'>Comédie</option>
+                    <option value='Documentaire'>Documentaire</option>
+                    <option value='Drame'>Drame</option>
+                    <option value='Fantastique'>Fantastique</option>
+                    <option value='Horreur'>Horreur</option>
+                    <option value='Policier'>Policier</option>
+                    <option value='Romance'>Romance</option>
+                    <option value='Science-fiction'>Science-fiction</option>
+                    <option value='Thriller'>Thriller</option>
+                </select>
             </div>
             <div>
                 <label for="auteur">Auteur :</label>
-                <input type="text" name="auteur" id="auteur">
+                <input type="text" name="auteur" id="auteur" required>
             </div>
             <button type="submit">Ajouter le film</button>
         </form>
@@ -34,7 +48,9 @@
                         <input type="date" name="date_diffusion">
                         <button type="submit">Programmer</button>
                     </form>
-                    <input type="button" onclick="location.href='http://localhost:8080/film/delFilm/<?= $film->getId(); ?>'" value="Supprimer">
+                    <input type="button" onclick="if (confirm('Voulez-vous vraiment supprimer ce film ?')) {
+                                location.href='http://localhost:8080/film/delFilm/<?= $film->getId(); ?>';
+                            }" value="Supprimer">
                 </div>
             <?php endforeach; ?>
         </div>
